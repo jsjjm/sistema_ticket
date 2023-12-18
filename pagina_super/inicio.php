@@ -271,6 +271,10 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                     <a href="./usuario.php">Usuarios</a>
                 </li>
 
+                <li >                
+                    <a href="#">Contador</a>
+                </li>
+
                 <li class="">
                     <a href="./impresora.php">Impresoras</a>
                 </li>
