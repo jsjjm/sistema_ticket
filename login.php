@@ -118,10 +118,16 @@
 </style>
 <div class="container">
 
+
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
 					<div class="panel-heading">
+
+					<div class="row">
+					<img src="./images/logo multiservicios benites png.png" alt="logo-multiservicio-benites"  >
+					</div>
+
 						<div class="row">
 
 						<?php
@@ -154,10 +160,10 @@
 						</div>
 
 
-							<div class="col-xs-6">
+						<!--	<div class="col-xs-6">
 								<a href="#" class="active" id="login-form-link">Login</a>
 							</div>
-						<!--	<div class="col-xs-6">
+							<div class="col-xs-6">
 								<a href="#" id="register-form-link">Register</a>
 							</div> -->
 						</div>
