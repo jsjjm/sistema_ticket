@@ -77,19 +77,12 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                     <a href="./inicio.php">Dashboard</a>                    
                 </li>
                 
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Tickets</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Tickets Todos</a>
-                        </li>
-                        <li>
-                            <a href="#">Tickets Soporte</a>
-                        </li>
-                        <li>
-                            <a href="#">Tickets Toner</a>
-                        </li>
-                    </ul>
+                <li class="">
+                    <a href="./tickets.php">Tikects</a>                    
+                </li>   
+                
+                <li >                
+                    <a href="./contador.php">Contador</a>
                 </li>
 
                 <li >                
@@ -100,9 +93,7 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                     <a href="./usuario.php">Usuarios</a>
                 </li>
 
-                <li >                
-                    <a href="#">Contador</a>
-                </li>
+                
 
                 <li class="">
                     <a href="./impresora.php">Impresoras</a>
@@ -110,7 +101,7 @@ if ($rowArea = $resultArea->fetch_assoc()) {
 
 
                 <li>
-                    <a href="" data-toggle="modal" data-target="#ModalCerrarsesion">Cerrar Sesión</a>
+                    <a href="" id="sidebarCerrar" data-toggle="modal" data-target="#ModalCerrarsesion">Cerrar Sesión</a>
                         <!-- Modal -->
                         <div class="modal fade" id="ModalCerrarsesion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -131,14 +122,7 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                 </li>
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+
         </nav>
 
         <!-- Page Content  -->
@@ -171,13 +155,21 @@ if ($rowArea = $resultArea->fetch_assoc()) {
 
 
 
-
+    </div>
+</div>
 </body>
 </html>
 
 <script>
     $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+</script>
+<script>
+    $(document).ready(function () {
+            $('#sidebarCerrar').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });

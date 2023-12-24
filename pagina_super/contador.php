@@ -81,11 +81,11 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                     <a href="./tickets.php">Tikects</a>                    
                 </li>   
                 
-                <li class="">                
+                <li class="active">                
                     <a href="./contador.php">Contador</a>
                 </li>
 
-                <li class="active">                
+                <li >                
                     <a href="./area.php">Áreas</a>
                 </li>
 
@@ -93,7 +93,8 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                     <a href="./usuario.php">Usuarios</a>
                 </li>
 
-                <li>
+
+                <li class="">
                     <a href="./impresora.php">Impresoras</a>
                 </li>
 
@@ -152,24 +153,53 @@ if ($rowArea = $resultArea->fetch_assoc()) {
 
 
 
+<?php
+// Incluir archivo de conexión
+//include('../conexion/conexion.php');
 
-<!-- /contenido de la pagina -->
+// Consulta SQL
+$sql = "SELECT 
+            i.id_impresora, 
+            i.marca, 
+            i.modelo, 
+            a.id_area, 
+            a.descripcion, 
+            SUM(c.contador_final) AS contador
+        FROM 
+            contador_impresiones c
+        JOIN 
+            impresora i ON c.id_impresora = i.id_impresora
+        JOIN 
+            area a ON c.id_area = a.id_area
+        GROUP BY 
+            c.id_impresora, 
+            c.id_area
+        ORDER BY 
+            i.marca, 
+            i.modelo, 
+            a.descripcion";
 
-<div class="seccion_soporte row pt-2 p-3">
+$result = $conn->query($sql);
 
+// Almacenar los resultados en un array para luego usarlo en HTML
+$data = array();
 
-<!------ Include the above in your HEAD tag ---------->
+// Verificar si la consulta fue exitosa
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+} else {
+    echo "Error al obtener los datos: " . $conn->error;
+}
 
-            <div class="container">
+// Cerrar conexión
+$conn->close();
+?>
 
-                <div class="row">
-                    <div class="col-6">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalarea">
-                            Crear Área
-                        </button>
-                    </div>
-                </div>
+<div class="row pt-3">
+    <div class="card p-4 table-responsive">
+<h3>Contador</h3>
 
                 <div class="row pt-3">
                     <div class="col-md-4 col-sm-12">
@@ -183,53 +213,39 @@ if ($rowArea = $resultArea->fetch_assoc()) {
                             </div>
                         </form>
                     </div>
+
+                    <div class="col-md-4">
+                        <a href="./descargar_contador.php" class="btn btn-success">Descargar excel</a>
+                    </div>
                     
                 </div>
-            
 
-                <?php
-                    // Obtener el id_usuario
-                    //$id_usuario = $_SESSION['idUsuario'];
+        <table class="table table-list-search w-100">
+            <thead>
+                <tr>
+                    <th>Área</th>
+                    <th>Impresora</th>                    
+                    <th>Contador</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $row): ?>
+                    <tr>
+                        <td><?= $row['descripcion'] ?></td>
+                        <td><?= $row['marca'] .' - '.$row['modelo'] ?> </td>
 
-                    // Consultar la tabla tickets
-                    $stm = $conn->prepare("SELECT id_area, descripcion, fecha_registro FROM area ORDER BY id_area ASC");
-                    
-                    $stm->execute();
-                    $resultado = $stm->get_result();
-                    ?>
+                        <td><?= $row['contador'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-                    <!-- Crear la tabla -->
-                    <table class="table table-list-search">
-                        <thead>
-                            <tr>
-                            <!-- <th>ID Ticket</th>-->
-                                <th>id area</th>
-                                
-                                <th>descripcion</th>
-                                
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $resultado->fetch_assoc()) : ?>
-                                <tr>
-                                    <td><?php echo $row['id_area']; ?></td>
-                                    <td><?php echo $row['descripcion']; ?></td>
-                                    <td ><?php echo $row['fecha_registro']; ?></td>                       
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+    </div>
+</div>
 
 
 
 
-                </div>
-
-            </div>
-
-</body>
-</html>
 <script>
     $(document).ready(function() {
     var activeSystemClass = $('.list-group-item.active');
@@ -281,6 +297,10 @@ if ($rowArea = $resultArea->fetch_assoc()) {
 
 
 
+
+</body>
+</html>
+
 <script>
     $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
@@ -295,32 +315,3 @@ if ($rowArea = $resultArea->fetch_assoc()) {
             });
         });
 </script>
-
-<!-- Modal Sopoerte-->
-<div class="modal fade" id="modalarea" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Áreas</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row p-3">
-                                            <form action="./guardar_area.php" method="post">
-
-                                                <div class="row">
-                                                    <label for="">Nombre del Área</label>
-                                                    <input type="text" class="form-control" name="area" required>
-                                                </div>                                               
-
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                    </div>
-                                    </form>
-                                    </div>
-                                </div>
-                                </div>

@@ -1,0 +1,11 @@
+{
+    "name": "jimenez/sistema_ticket",
+    "autoload": {
+        "psr-4": {
+            "Jimenez\\SistemaTicket\\": "src/"
+        }
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "1.18"
+    }
+}
